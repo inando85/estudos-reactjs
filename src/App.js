@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 
 function App () {
 
@@ -23,17 +23,25 @@ function App () {
     localStorage.setItem('tarefas', JSON.stringify(tarefas))
   }, [tarefas])
 
-  const handleAdd = ()=> {
+
+  // Sem useCallback()
+  // const handleAdd = ()=> {
+  //   setTarefas([...tarefas, input])
+  //   setInput('')
+  // }
+
+  // Com useCallback()
+  const handleAdd = useCallback(() => {
     setTarefas([...tarefas, input])
     setInput('')
-  }
+  }, [tarefas, input])
 
   const totalTarefas = useMemo(() => tarefas.length, [tarefas])
 
 
   return (
     <div>
-      <h1>Hooks - useMemo</h1>
+      <h1>Hooks - useCallback</h1>
 
       <ul>
         {
