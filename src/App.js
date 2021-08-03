@@ -1,45 +1,61 @@
 import React, { Component } from 'react'
 import './App.css'
 
-import Biscoito from './assets/biscoito.png';
-
-import Button from './components/Button'
-
+import Cronometro from './assets/cronometro.png'
 class App extends Component {
+
   constructor (props) {
     super(props)
     this.state = {
-      frase: ''
+      number: 0,
+      button: 'Iniciar'
     }
 
-    this.quebraBiscoito = this.quebraBiscoito.bind(this)
-
-    this.frases = [
-      'Siga os bons e aprenda com eles.', 
-      'O bom-senso vale mais do que muito conhecimento.', 
-      'O riso é a menor distância entre duas pessoas.', 
-      'Deixe de lado as preocupações e seja feliz.', 
-      'Realize o óbvio, pense no improvável e conquiste o impossível.', 
-      'Acredite em milagres, mas não dependa deles.', 
-      'A maior barreira para o sucesso é o medo do fracasso.'
-    ]
+    this.timer = null
+    this.iniciar = this.iniciar.bind(this)
+    this.zerar = this.zerar.bind(this)
   }
 
-  quebraBiscoito () {
+  iniciar () {
     let state = this.state
-    let randomNumber = Math.floor(Math.random() * this.frases.length)
-    
-    state.frase = `" ${this.frases[randomNumber]} "`
 
+    if (this.timer !== null) {
+      clearInterval(this.timer)
+      this.timer = null
+      state.button = 'Iniciar'
+    } else {
+      this.timer = setInterval(() => {
+        state.number += 0.1
+        this.setState(state)
+      }, 100)
+      state.button = 'Pausar'
+    }
+
+    this.setState(state)
+  }
+
+  zerar () {
+    if (this.timer !== null) {
+      clearInterval(this.timer)
+      this.timer = null
+    }
+
+    let state = this.state
+    state.number = 0
+    state.button = 'Iniciar'
     this.setState(state)
   }
 
   render () {
     return (
       <div className="container">
-        <img src={Biscoito} alt="Biscoito da Sorte" className="image" />
-        <Button nome="Abrir Biscoito" actionBtn={this.quebraBiscoito} />
-        <h3 className="text">{this.state.frase}</h3>
+        <img src={Cronometro} alt="Cronometro" className="image" />
+        <p className="timer">{this.state.number.toFixed(1)}</p>
+
+        <div className="areaBtn">
+          <button className="btn" onClick={this.iniciar}>{this.state.button}</button>
+          <button className="btn" onClick={this.zerar}>Zerar</button>
+        </div>
       </div>
     )
   }

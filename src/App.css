@@ -8,14 +8,40 @@
 }
 
 .image {
-  width: 250px;
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 50px;
+  width: 350px;
+  height: 350px;
 }
 
-.text {
-  font-style: italic;
-  color: #dd7b22;
-  text-align: center;
+.timer {
+  font-size: 130px;
+  margin-top: -230px;
+  color: #84e;
+}
+
+.areaBtn {
+  margin-top: -30px;
+  display: flex;
+  gap: 30px;
+}
+
+.btn {
+  width: 150px;
+  height: 30px;
+  background-color: #fff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 5px;
+  border: transparent;
+  transition: all .4s;
+}
+
+.btn:hover {
+  background-color: #84e;
+  color: #fff;
 }
