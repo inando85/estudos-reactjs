@@ -1,64 +1,35 @@
-import React, { Component } from 'react'
-import './App.css'
+import React, { useState } from 'react'
 
-import Cronometro from './assets/cronometro.png'
-class App extends Component {
+function App () {
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      number: 0,
-      button: 'Iniciar'
-    }
+  const [tarefas, setTarefas] = useState([
+    'Pagar a conta de luz',
+    'Estudar React Hooks'
+  ])
 
-    this.timer = null
-    this.iniciar = this.iniciar.bind(this)
-    this.zerar = this.zerar.bind(this)
+  const [input, setInput] = useState('')
+
+  const handleAdd = () => {
+    setTarefas([...tarefas, input])
+    setInput('')
   }
 
-  iniciar () {
-    let state = this.state
 
-    if (this.timer !== null) {
-      clearInterval(this.timer)
-      this.timer = null
-      state.button = 'Iniciar'
-    } else {
-      this.timer = setInterval(() => {
-        state.number += 0.1
-        this.setState(state)
-      }, 100)
-      state.button = 'Pausar'
-    }
+  return (
+    <div>
+      <h1>Hooks - useState</h1>
 
-    this.setState(state)
-  }
-
-  zerar () {
-    if (this.timer !== null) {
-      clearInterval(this.timer)
-      this.timer = null
-    }
-
-    let state = this.state
-    state.number = 0
-    state.button = 'Iniciar'
-    this.setState(state)
-  }
-
-  render () {
-    return (
-      <div className="container">
-        <img src={Cronometro} alt="Cronometro" className="image" />
-        <p className="timer">{this.state.number.toFixed(1)}</p>
-
-        <div className="areaBtn">
-          <button className="btn" onClick={this.iniciar}>{this.state.button}</button>
-          <button className="btn" onClick={this.zerar}>Zerar</button>
-        </div>
-      </div>
-    )
-  }
+      <ul>
+        {
+          tarefas.map(tarefa => (
+            <li key={tarefa}>{tarefa}</li>
+          ))
+        }
+      </ul>
+      <input type="text" value={input} onChange={(event) => setInput(event.target.value)}/>
+      <button type="button" onClick={handleAdd}>Adicionar</button>
+    </div>
+  )
 }
 
 export default App
