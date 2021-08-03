@@ -1,0 +1,21 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 250px;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 50px;
+}
+
+.text {
+  font-style: italic;
+  color: #dd7b22;
+  text-align: center;
+}
