@@ -1,59 +1,41 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect } from 'react'
+import './App.css'
 
 function App () {
 
-  const [tarefas, setTarefas] = useState([])
-
-  const [input, setInput] = useState('')
+  const [nutri, setNutri] = useState([])
 
   useEffect(() => {
-    const tarefasStorage = localStorage.getItem('tarefas')
+    function loadApi () {
+      const url = 'https://sujeitoprogramador.com/rn-api/?api=posts'
 
-    if (tarefasStorage) {
-      setTarefas(JSON.parse(tarefasStorage))
+      fetch(url)
+        .then(response => response.json())
+        .then((json) => {
+          setNutri(json)
+        })
     }
 
-    // Caso quisermos fazer algo quando o componente for desmontado, basta usar a forma abaixo, rtornando a função que deve ser executada.
-    return () => {}
+    loadApi()
   }, [])
 
-
-  // Monitorando alterações no state tarefas
-  useEffect(() => {
-    localStorage.setItem('tarefas', JSON.stringify(tarefas))
-  }, [tarefas])
-
-
-  // Sem useCallback()
-  // const handleAdd = ()=> {
-  //   setTarefas([...tarefas, input])
-  //   setInput('')
-  // }
-
-  // Com useCallback()
-  const handleAdd = useCallback(() => {
-    setTarefas([...tarefas, input])
-    setInput('')
-  }, [tarefas, input])
-
-  const totalTarefas = useMemo(() => tarefas.length, [tarefas])
-
-
   return (
-    <div>
-      <h1>Hooks - useCallback</h1>
-
-      <ul>
-        {
-          tarefas.map(tarefa => (
-            <li key={tarefa}>{tarefa}</li>
-          ))
-        }
-      </ul><br/>
-
-      <strong>Você tem {totalTarefas} tarefas!</strong><br/><br/>
-      <input type="text" value={input} onChange={(event) => setInput(event.target.value)}/> <br/><br/>
-      <button onClick={handleAdd}>Adicionar Tarefa</button>
+    <div className="container">
+      <header>
+        <strong>React Nutri</strong>
+      </header>
+      {
+        nutri.map((item) => {
+          return (
+            <article key={item.id} className="post">
+              <strong className="titulo">{item.titulo}</strong>
+              <img src={item.capa} alt={item.titulo} className="capa"/>
+              <p className="subtitulo">{item.subtitulo}</p>
+              <button className="botao">Acessar</button>
+            </article>
+          )
+        })
+      }
     </div>
   )
 }
